@@ -10,6 +10,8 @@
 #define MOSI 37
 #define CS 9
 
+#define NTP_PACKET_SIZE 48
+
 // Enter a MAC address for your controller below.
 // Newer Ethernet shields have a MAC address printed on a sticker on the shield
 byte mac[] = {
@@ -26,7 +28,7 @@ void setup()
   SPI.begin(SCK, MISO, MOSI, -1);
   Ethernet.init(CS);
 
-  M5.Lcd.println("UdpNtpClient");
+  M5.Display.println("UdpNtpClient");
 
   // start Ethernet and UDP
   if (Ethernet.begin(mac) == 0)
@@ -44,7 +46,7 @@ void setup()
     // no point in carrying on, so do nothing forevermore:
     while (true)
     {
-      delay(1);
+      delay(1000);
     }
   }
 
@@ -53,11 +55,11 @@ void setup()
 
 void loop()
 {
-  NtpClient.getTime(timeServer);
-  M5.Display.startWrite();
   M5.Display.setCursor(0, 12);
 
-
-  delay(10000);
+  String timeLine = NtpClient.getTime(timeServer, +9);
+  M5.Display.println(timeLine);
+  Serial.println(timeLine);
+  delay(1000);
   Ethernet.maintain();
 }
