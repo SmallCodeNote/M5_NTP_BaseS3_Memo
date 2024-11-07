@@ -2,7 +2,7 @@
 #include <SPI.h>
 #include <M5_Ethernet.h>
 #include <time.h>
-#include "NtpClient.hpp"
+#include "M5_Ethernet_NtpClient.hpp"
 
 // For M5CoreS3
 #define SCK 36
